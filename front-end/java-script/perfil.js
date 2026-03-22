@@ -1,12 +1,4 @@
 const STORAGE_KEY = 'usuarioLogueado';
-const usuario = JSON.parse(localStorage.getItem(STORAGE_KEY));
-const password = localStorage.getItem("password");
-const authHeader = "Basic " + btoa(usuario.correo + ":" + password);
-const res = await fetch(`http://localhost:8080/api/usuarios/${usuario.id}`, {
-    headers: {
-        'Authorization': authHeader
-    }
-});
 
 // navegación
 function irlectura_actual() { window.location.href = "lectura_actual.html"; }
@@ -16,7 +8,7 @@ function irperfil() { window.location.href = "perfil.html"; }
 function irlogin() { window.location.href = "login.html"; }
 
 // cargar perfil
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const datos = localStorage.getItem(STORAGE_KEY);
 
     if (!datos) {
@@ -26,6 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const usuario = JSON.parse(datos);
+    
+    // Validar que usuario tenga correo
+    if (!usuario || !usuario.correo) {
+        alert("Datos de usuario inválidos");
+        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem("password");
+        irlogin();
+        return;
+    }
+
     renderizarPerfil(usuario);
 });
 

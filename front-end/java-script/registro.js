@@ -6,7 +6,7 @@ function irlogin() {
 }
 
 function irHome() { 
-    window.location.href = "lectura_actual.html"; 
+    window.location.href = "perfil.html"; 
 }
 
 // registro
