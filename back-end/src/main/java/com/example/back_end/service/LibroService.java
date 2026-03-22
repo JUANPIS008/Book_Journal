@@ -39,9 +39,4 @@ public class LibroService {
     public List<Libro> librosLeidos() {
         return repository.findByFinIsNotNull();
     }
-
-    public List<Libro> obtenerLibrosPorUsuario(Long usuarioId) {
-        return repository.findByUsuarioId(usuarioId);
-    }
-   
 }

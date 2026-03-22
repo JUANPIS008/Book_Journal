@@ -78,16 +78,9 @@ function renderizarTarjeta(libro) {
 async function eliminarLibro(id) {
     if (!confirm("¿Eliminar este libro?")) return;
 
-    const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    const password = localStorage.getItem("password");
-    const authHeader = "Basic " + btoa(usuario.correo + ":" + password);
-
     try {
         const respuesta = await fetch(`http://localhost:8080/api/libros/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': authHeader
-            }
+            method: 'DELETE'
         });
 
         if (respuesta.ok) {

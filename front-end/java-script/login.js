@@ -34,12 +34,11 @@ async function login() {
             return;
         }
 
-        const data = await respuesta.json();
+        const usuario = await respuesta.json();
 
-        if (data && data.usuario) {
+        if (usuario) {
             // guardar sesión
-            localStorage.setItem("usuarioLogueado", JSON.stringify(data.usuario));
-            localStorage.setItem("password", password); // Guardar contraseña para autenticación
+            localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
 
             alert("Login exitoso 🎉");
             irHome();

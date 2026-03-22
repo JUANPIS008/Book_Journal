@@ -2,7 +2,10 @@ package com.example.back_end.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import lombok.Data;
 
+
+@Data
 @Entity
 @Table(name = "libros")
 public class Libro {
@@ -22,10 +25,6 @@ public class Libro {
     private LocalDate fin;
 
     private Integer calificacion;
-
-    @ManyToOne
-    @JoinColumn(name = "usuario_id") // crea la columna FK
-    private Usuario usuario;
 
     // getters y setters (SOLO UNA VEZ)
 
@@ -92,13 +91,4 @@ public class Libro {
     public void setCalificacion(Integer calificacion) {
         this.calificacion = calificacion;
     }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
 }

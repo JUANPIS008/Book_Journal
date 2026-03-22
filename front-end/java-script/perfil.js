@@ -1,4 +1,6 @@
 const STORAGE_KEY = 'usuarioLogueado';
+const usuario = JSON.parse(localStorage.getItem(STORAGE_KEY));
+const res = await fetch(`http://localhost:8080/api/usuarios/${usuario.id}`);
 
 // navegación
 function irlectura_actual() { window.location.href = "lectura_actual.html"; }
@@ -8,7 +10,7 @@ function irperfil() { window.location.href = "perfil.html"; }
 function irlogin() { window.location.href = "login.html"; }
 
 // cargar perfil
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     const datos = localStorage.getItem(STORAGE_KEY);
 
     if (!datos) {
@@ -18,16 +20,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const usuario = JSON.parse(datos);
-    
-    // Validar que usuario tenga correo
-    if (!usuario || !usuario.correo) {
-        alert("Datos de usuario inválidos");
-        localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem("password");
-        irlogin();
-        return;
-    }
-
     renderizarPerfil(usuario);
 });
 
@@ -55,7 +47,6 @@ function renderizarPerfil(usuario) {
 function cerrarSesion() {
     if (confirm("¿Cerrar sesión?")) {
         localStorage.removeItem(STORAGE_KEY);
-        localStorage.removeItem("password");
         irlogin();
     }
 }

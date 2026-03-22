@@ -6,7 +6,6 @@ import java.util.List;
 
 public interface LibroRepository extends JpaRepository<Libro, Long> {
     List<Libro> findByFinIsNotNull();
-    List<Libro> findByFinIsNull(); 
+    List<Libro> findByFinIsNull();
     List<Libro> findByFinIsNotNullOrderByFinDesc();
-    List<Libro> findByUsuarioId(Long usuarioId);
 }

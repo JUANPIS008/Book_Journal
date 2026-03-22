@@ -6,7 +6,7 @@ function irlogin() {
 }
 
 function irHome() { 
-    window.location.href = "perfil.html"; 
+    window.location.href = "lectura_actual.html"; 
 }
 
 // registro
@@ -54,15 +54,10 @@ async function registrar() {
             return;
         }
 
-        const data = await respuesta.json();
+        const usuario = await respuesta.json();
 
         // guardar sesión automáticamente
-        if (data && data.usuario) {
-            localStorage.setItem("usuarioLogueado", JSON.stringify(data.usuario));
-        } else {
-            // fallback por si no hay nodo "usuario"
-            localStorage.setItem("usuarioLogueado", JSON.stringify(data));
-        }
+        localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
 
         alert("Registro exitoso 🎉");
         irHome();
