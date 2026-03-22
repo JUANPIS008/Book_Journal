@@ -1,0 +1,234 @@
+body { 
+    background: #ccdbbe; 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #fdfdfd;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.perfil-section {
+    display: flex;
+    justify-content: flex-end;
+    width: 100px; 
+}
+
+.iconoperfil {
+    width: 40px;  
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #79876D;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.iconoperfil:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+.main-title {
+    text-align: center;
+}
+
+.main-title .book {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 2.5rem;
+    color: #5a6650;
+    margin-right: 5px;
+}
+
+.main-title .journal {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.8rem;
+    color: #79876D;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background: #79876D;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+}
+
+.dropdown-content a:hover {
+    background-color: #ccdbbe;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.reg-form-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 40px;
+}
+
+.reg-title {
+   font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: #1a1a1a;
+    text-align: center; 
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+.side-image {
+    position: fixed;
+    width: 250px;   
+    height: auto;
+    z-index: 0;     
+    pointer-events: none; 
+}
+
+.right {
+    padding: 76px; 
+    top: 0;
+    right: -75px;
+}
+
+.left {
+    bottom: 0;
+    left: 0;
+}
+
+input, textarea { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 10px 0; 
+    border: 1px solid #b5c4a8; 
+    border-radius: 10px; 
+    box-sizing: border-box; 
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.3rem;
+    background: #fdfdfd;
+}
+
+textarea {
+    height: 100px;
+    resize: none;
+}
+
+.fechas {
+    display: flex;
+    gap: 15px;
+    margin: 10px 0;
+}
+
+.date-input {
+    flex: 1;
+}
+
+.date-input label {
+    font-family: 'Patrick Hand', cursive;
+    display: block;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.rating-container {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.rating-container label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.stars {
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.star {
+    font-size: 2.5rem;
+    color: #686666; 
+    transition: color 0.2s ease;
+}
+
+.star.active {
+    color: #1a1a1a; 
+}
+
+.star:hover {
+    transform: scale(1.1);
+}
+
+button { 
+    width: 100%; 
+    padding: 12px; 
+    background: #79876D; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.6rem;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}

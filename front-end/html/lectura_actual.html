@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lectura Actual - BOOK Journal</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/lectura_actual.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <div class="dropdown">
+                <button class="dropbtn">Módulos ▼</button>
+                <div class="dropdown-content">
+
+                    <a href="lectura_actual.html">Lectura actual</a>
+                    <a href="libros_leidos.html">Libros leídos</a>
+                    <a href="lista_deseos.html">Libros deseados</a>
+
+                    <div class="divider"></div>
+
+                    <a href="login.html">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <div class="main-title">
+                <span class="book">BOOK</span>
+                <span class="journal">Journal</span>
+            </div>
+
+            <div class="perfil-section">
+                <a href="perfil.html" class="profile-link">
+                    <img src="../recursos/Imagen4.jpg" alt="Perfil" class="iconoperfil">
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <img src="../recursos/Imagen1.png" class="side-image right" alt="Hojas decorativas">
+
+    <main class="reg-form-container">
+        <div class="container">
+            <h1 class="reg-title">Lectura actual</h1>
+
+            <div class="form-content">
+                <input type="text" id="titulo" placeholder="Nombre del Libro" required>
+                <input type="text" id="autor" placeholder="Autor" required>
+                <input type="text" id="genero" placeholder="Género">
+
+                <textarea id="resena" placeholder="Escribe aquí tu reseña o notas sobre el libro..."></textarea>
+
+                <div class="fechas">
+                    <div class="date-group">
+                        <label for="inicio">Fecha de inicio</label>
+                        <input type="date" id="inicio">
+                    </div>
+
+                    <div class="date-group">
+                        <label for="final">Fecha de fin</label>
+                        <input type="date" id="final">
+                    </div>
+                </div>
+
+                <div class="rating-container">
+                    <label>Calificación:</label>
+                    <div class="stars" id="star-rating">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+
+                    <input type="hidden" id="calificacion" value="0">
+                </div>
+
+                <button type="button" id="btn_finalizar_lectura" class="boton_terminar_lectura">
+                    Finalizar lectura
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
+
+    <script src="../java-script/lectura_actual.js"></script>
+</body>
+</html>

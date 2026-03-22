@@ -1,0 +1,111 @@
+body { 
+    background: #9aab8b; 
+    font-family: 'Segoe UI', sans-serif; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    margin: 0; 
+    position: relative;
+    overflow: hidden; 
+}
+
+.side-image {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px; 
+    height: auto;
+    z-index: 1;
+}
+
+.left {
+    left: 20px;
+}
+
+.right {
+    right: 20px;
+}
+
+.container-login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    z-index: 10;
+}
+
+.main-title {
+    margin-bottom: 20px;
+    text-align: center;
+    line-height: 0.9;
+    color: #000;
+}
+
+.main-title span {
+    display: block; 
+}
+
+.font-patrick {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 5rem;
+    text-transform: uppercase;
+}
+
+.font-dancing {
+    font-family: 'Dancing Script', cursive;
+    font-size: 6rem;
+    font-weight: 700;
+    margin-top: -15px;
+}
+
+.login-card { 
+    background-color: #ccdbbe; 
+    padding: 40px; 
+    border-radius: 15px; 
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+    text-align: center; 
+    width: 100%;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.login-card h2 {
+    font-size: 2.8rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #1a1a1a;
+}
+
+input { 
+    width: 100%; 
+    padding: 12px; 
+    margin: 10px 0; 
+    border: 1px solid #b5c4a8; 
+    border-radius: 8px; 
+    box-sizing: border-box; 
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.4rem;
+    background: #fdfdfd;
+}
+
+button { 
+    width: 100%; 
+    padding: 12px; 
+    background: #79876D; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.6rem;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}

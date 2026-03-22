@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro - BOOK Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/registro.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">          
+            <div class="main-title">
+                <span class="book">BOOK</span>
+                <span class="journal">Journal</span>
+            </div>
+
+            <div style="width: 100px;"></div>
+        </div>
+    </nav>
+
+ 
+    <img src="../recursos/Imagen1.png" class="side-image right" alt="Hojas decorativas">
+
+    <div class="reg-form-container">
+        <h2 class="reg-title">Registrarse</h2>
+
+        <input type="text" id="nombreCompleto" placeholder="Nombres y apellidos">
+        <input type="email" id="correo" placeholder="Correo electrónico">
+
+        <input type="password" id="passwordRegistro" placeholder="Crea una contraseña">
+        <input type="password" id="passwordConfirmar" placeholder="Confirma tu contraseña">
+
+        <h5 class="instruccion">Ingresa tu fecha de nacimiento</h5>
+        <input type="date" id="fechaNacimiento" title="Fecha de Nacimiento">
+
+        <input type="number" id="promedioLectura" placeholder="Promedio de lectura diaria (min)">
+        <input type="text" id="generoFavorito" placeholder="Género favorito">
+
+        <button class="btn-finish" onclick="registrar()">Finalizar Registro</button>
+        <button class="btn-back" onclick="irlogin()">Volver</button>
+    </div>
+
+    <img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
+    <script src="../java-script/registro.js"></script>
+
+</body>
+</html>

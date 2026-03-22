@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de deseos - BOOK Journal</title>
+    <link rel="stylesheet" href="../css/lista_deseos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+
+            <div class="dropdown">
+                <button class="dropbtn">Módulos ▼</button>
+                <div class="dropdown-content">
+                    <a href="lectura_actual.html">Lectura actual</a>
+                    <a href="libros_leidos.html">Libros leídos</a>
+                    <a href="lista_deseos.html">Libros deseados</a>
+
+                    <div class="divider"></div>
+
+                    <a href="login.html">Cerrar sesión</a>
+                </div>
+            </div>
+
+            <div class="main-title">
+                <span class="book">BOOK</span>
+                <span class="journal">Journal</span>
+            </div>
+
+            <div class="perfil-section">
+                <a href="perfil.html" class="profile-link">
+                    <img src="../recursos/Imagen4.jpg" alt="Perfil" class="iconoperfil">
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <img src="../recursos/Imagen1.png" class="side-image right" alt="Hojas decorativas">
+
+    <main class="reg-form-container">
+        <div class="container">
+
+            <h1 class="titulo-libros-deseados">Lista de libros deseados</h1>
+            <div class="lista-libros-deseados" id="lista-deseados">
+
+                <div class="input-section">
+                    <input type="text" id="wish-input" placeholder="Escribe un libro que desees...">
+                    <button onclick="addWish()">Agregar</button>
+                </div>
+
+                <div id="lista-deseos-container"></div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
+    <script src="../java-script/lista_deseos.js"></script>
+
+</body>
+</html>
