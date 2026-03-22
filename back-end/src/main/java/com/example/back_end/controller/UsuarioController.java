@@ -29,4 +29,10 @@ public class UsuarioController {
     public Usuario obtenerPerfil(@PathVariable Long id) {
         return service.obtenerPorId(id);
     }
+
+    @PutMapping("/{id}")
+    public Usuario actualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+        usuario.setId(id);
+        return service.actualizar(usuario);
+    }
 }

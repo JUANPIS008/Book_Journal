@@ -1,79 +1,77 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Libros leídos - BOOK Journal</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Patrick+Hand&display=swap"
+        rel="stylesheet">
 
     <link rel="stylesheet" href="../css/libros_leidos.css">
 </head>
 
 <body>
-<nav class="navbar">
-    <div class="nav-container">
 
-        <div class="dropdown">
-            <button class="dropbtn">Módulos ▼</button>
-            <div class="dropdown-content">
+    <nav class="navbar">
+        <div class="nav-container">
 
-                <a href="lectura_actual.html">Lectura actual</a>
-                <a href="libros_leidos.html">Libros leídos</a>
-                <a href="lista_deseos.html">Libros deseados</a>
+            <div class="dropdown">
+                <button class="dropbtn">Módulos ▼</button>
+                <div class="dropdown-content">
 
-                <div class="divider"></div>
-                <a href="login.html">Cerrar sesión</a>
-            </div>
-        </div>
+                    <a href="lectura_actual.html">Lectura actual</a>
+                    <a href="libros_leidos.html">Libros leídos</a>
+                    <a href="lista_deseos.html">Libros deseados</a>
 
-        <div class="main-title">
-            <span class="book">BOOK</span>
-            <span class="journal">Journal</span>
-        </div>
-
-        <div class="perfil-section">
-            <a href="perfil.html" class="profile-link">
-                <img src="../recursos/Imagen4.jpg" alt="Perfil" class="iconoperfil">
-            </a>
-        </div>
-
-    </div>
-</nav>
-
-<img src="../recursos/Imagen1.png" class="side-image right" alt="Hojas decorativas">
-
-<main class="reg-form-container">
-    <div class="container">
-        <h1 class="reg-title">Libros leídos</h1>
-
-        <div class="historia-containerS" id="historial-libros">
-
-            <div class="libro-card">
-                <h2 class="libro-titulo">El Principito</h2>
-                <p class="libro-autor"><strong>Autor:</strong> Antoine de Saint-Exupéry</p>
-                <p class="libro-genero"><strong>Género:</strong> Fantasía / Fábula</p>
-
-                <div class="libro-fechas">
-                    <span><strong>Inicio:</strong> 01/03/2026</span> | 
-                    <span><strong>Final:</strong> 10/03/2026</span>
-                </div>
-
-                <p class="libro-resena">
-                    <strong>Reseña:</strong> Una historia conmovedora sobre la importancia de ver con el corazón.
-                </p>
-
-                <div class="libro-calificacion">
-                    <strong>Calificación:</strong> ★★★★★
+                    <div class="divider"></div>
+                    <a href="login.html">Cerrar sesión</a>
                 </div>
             </div>
 
-        </div>
-    </div>
-</main>
+            <div class="main-title">
+                <span class="book">BOOK</span>
+                <span class="journal">Journal</span>
+            </div>
 
-<img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
-<script src="../java-script/libros_leidos.js"></script>
+            <div class="perfil-section">
+                <a href="perfil.html" class="profile-link">
+                    <img src="../recursos/Imagen4.jpg" alt="Perfil" class="iconoperfil">
+                </a>
+            </div>
+
+        </div>
+    </nav>
+
+    <img src="../recursos/Imagen1.png" class="side-image right" alt="Hojas decorativas">
+
+    <main class="reg-form-container">
+        <div class="container">
+
+            <h1 class="reg-title">Libros leídos</h1>
+
+            <!-- 🔍 BUSCADOR -->
+            <div style="margin-bottom:20px;">
+                <input type="text" id="busqueda" placeholder="Buscar libro..." 
+                       style="padding:10px; width:70%;">
+                <button onclick="buscarLibros()" style="padding:10px;">
+                    Buscar
+                </button>
+            </div>
+
+            <!-- 📚 CONTENEDOR DE LIBROS -->
+            <div class="historia-containerS" id="historial-libros">
+                <!-- Aquí se renderizan los libros -->
+            </div>
+
+        </div>
+    </main>
+
+    <img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
+
+    <script src="../java-script/libros_leidos.js"></script>
 
 </body>
+
 </html>

@@ -13,6 +13,37 @@ document.addEventListener('DOMContentLoaded', () => {
     cargarHistorial();
 });
 
+async function buscarLibros() {
+
+    const texto = document.getElementById('busqueda').value;
+
+    const contenedor = document.getElementById('historial-libros');
+    contenedor.innerHTML = "";
+
+    if (!texto) {
+        cargarHistorial(); // 🔥 vuelve a lista normal
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(`http://localhost:8080/api/libros/buscar?texto=${texto}`);
+
+        if (!respuesta.ok) throw new Error();
+
+        const libros = await respuesta.json();
+
+        if (libros.length === 0) {
+            contenedor.innerHTML = "<p>No se encontraron resultados</p>";
+            return;
+        }
+
+        libros.forEach(libro => renderizarTarjeta(libro));
+
+    } catch (error) {
+        console.error("Error en búsqueda", error);
+    }
+}
+
 // cargar libros desde la API
 async function cargarHistorial() {
     const contenedor = document.getElementById('historial-libros');

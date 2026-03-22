@@ -1,0 +1,178 @@
+body { 
+    background: #ccdbbe; 
+    font-family: 'Segoe UI', sans-serif; 
+    margin: 0; 
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #fdfdfd;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.perfil-section {
+    display: flex;
+    justify-content: flex-end;
+    width: 100px; 
+}
+
+.iconoperfil {
+    width: 40px;  
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #79876D;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.iconoperfil:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+.main-title {
+    text-align: center;
+}
+
+.main-title .book {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 2.5rem;
+    color: #5a6650;
+    margin-right: 5px;
+}
+
+.main-title .journal {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.8rem;
+    color: #79876D;
+    font-weight: bold;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropbtn {
+    background: #79876D;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Patrick Hand', cursive;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: #333;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.2rem;
+}
+
+.dropdown-content a:hover {
+    background-color: #ccdbbe;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.reg-form-container {
+    width: 100%;
+    max-width: 600px; 
+    z-index: 10; 
+    position: relative;
+    padding: 20px;
+    margin-top: 80px;
+}
+
+.reg-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5rem;
+    color: #1a1a1a;
+    text-align: center; 
+    margin-bottom: 20px;
+    margin-top: 0;
+}
+.side-image {
+    position: fixed;
+    width: 250px;   
+    height: auto;
+    z-index: 0;     
+    pointer-events: none; 
+}
+
+.right {
+    padding: 76px; 
+    top: 0;
+    right: -75px;
+}
+
+.left {
+    bottom: 0;
+    left: 0;
+}
+.datos-perfil {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    border: none;
+    font-family: 'Patrick Hand', cursive;
+}
+.datos-perfil h2 {
+    font-size: 2.5rem;
+    color: #5a6650;
+    margin-bottom: 15px;
+}
+button { 
+    width: 100%; 
+    padding: 12px; 
+    background: #79876D; 
+    color: white; 
+    border: none; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.6rem;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}

@@ -46,4 +46,9 @@ public class LibroController {
     public List<Libro> librosLeidos() {
         return service.librosLeidos();
     }
+
+    @GetMapping("/buscar")
+    public List<Libro> buscar(@RequestParam String texto) {
+        return service.buscar(texto);
+    }
 }

@@ -1,6 +1,5 @@
+const API_URL = 'http://localhost:8080/api/usuarios';
 const STORAGE_KEY = 'usuarioLogueado';
-const usuario = JSON.parse(localStorage.getItem(STORAGE_KEY));
-const res = await fetch(`http://localhost:8080/api/usuarios/${usuario.id}`);
 
 // navegación
 function irlectura_actual() { window.location.href = "lectura_actual.html"; }
@@ -10,37 +9,52 @@ function irperfil() { window.location.href = "perfil.html"; }
 function irlogin() { window.location.href = "login.html"; }
 
 // cargar perfil
-document.addEventListener('DOMContentLoaded', () => {
-    const datos = localStorage.getItem(STORAGE_KEY);
+document.addEventListener('DOMContentLoaded', async () => {
 
-    if (!datos) {
+    const datosLocal = localStorage.getItem(STORAGE_KEY);
+
+    if (!datosLocal) {
         alert("Debes iniciar sesión");
-        irlogin();
+        window.location.href = "login.html";
         return;
     }
 
-    const usuario = JSON.parse(datos);
-    renderizarPerfil(usuario);
+    const usuarioLocal = JSON.parse(datosLocal);
+
+    try {
+        const respuesta = await fetch(`${API_URL}/${usuarioLocal.id}`);
+
+        if (!respuesta.ok) throw new Error();
+
+        const usuario = await respuesta.json();
+
+        // actualizar localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(usuario));
+
+        renderizarPerfil(usuario);
+
+    } catch (error) {
+        console.warn("Usando datos locales");
+        renderizarPerfil(usuarioLocal);
+    }
 });
 
 // mostrar datos
 function renderizarPerfil(usuario) {
-    const contenedor = document.getElementById('datos-perfil');
+    document.querySelector('.nombrecompleto').textContent =
+        `Nombre completo: ${usuario.nombre}`;
 
-    contenedor.querySelector('.nombrecompleto').textContent =
-        `Nombre completo: ${usuario.nombre || 'No definido'}`;
+    document.querySelector('.correo').innerHTML =
+        `<strong>Correo:</strong> ${usuario.correo}`;
 
-    contenedor.querySelector('.correo').innerHTML =
-        `<strong>Correo:</strong> ${usuario.correo || 'No definido'}`;
+    document.querySelector('.fechaNacimiento').innerHTML =
+        `<strong>Fecha de nacimiento:</strong> ${usuario.fechaNacimiento}`;
 
-    contenedor.querySelector('.fechaNacimiento').innerHTML =
-        `<strong>Fecha de nacimiento:</strong> ${usuario.fechaNacimiento || 'No definida'}`;
+    document.querySelector('.promedioLectura').innerHTML =
+        `<strong>Promedio:</strong> ${usuario.promedioLectura} min`;
 
-    contenedor.querySelector('.promedioLectura').innerHTML =
-        `<strong>Promedio de lectura:</strong> ${usuario.promedioLectura || '0'} min`;
-
-    contenedor.querySelector('.generoFavorito').innerHTML =
-        `<strong>Género favorito:</strong> ${usuario.generoFavorito || 'No definido'}`;
+    document.querySelector('.generoFavorito').innerHTML =
+        `<strong>Género favorito:</strong> ${usuario.generoFavorito}`;
 }
 
 // cerrar sesión

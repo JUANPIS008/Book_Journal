@@ -39,4 +39,9 @@ public class LibroService {
     public List<Libro> librosLeidos() {
         return repository.findByFinIsNotNull();
     }
+
+    public List<Libro> buscar(String texto) {
+        return repository.buscar(texto);
+    }
+    
 }

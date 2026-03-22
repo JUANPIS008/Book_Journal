@@ -3,39 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfil - BOOK Journal</title>
+    <title>Editar Perfil - BOOK Journal</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Patrick+Hand&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/perfil.css">
 </head>
-
 <body>
 <nav class="navbar">
     <div class="nav-container">
-
         <div class="dropdown">
             <button class="dropbtn">Módulos ▼</button>
             <div class="dropdown-content">
                 <a href="lectura_actual.html">Lectura actual</a>
                 <a href="libros_leidos.html">Libros leídos</a>
                 <a href="lista_deseos.html">Libros deseados</a>
-
                 <div class="divider"></div>
-
                 <a href="login.html">Cerrar sesión</a>
             </div>
         </div>
-
         <div class="main-title">
             <span class="book">BOOK</span>
             <span class="journal">Journal</span>
         </div>
-
         <div class="perfil-section">
             <a href="perfil.html" class="profile-link">
                 <img src="../recursos/Imagen4.jpg" alt="Perfil" class="iconoperfil">
             </a>
         </div>
-
     </div>
 </nav>
 
@@ -43,29 +36,37 @@
 
 <main class="reg-form-container">
     <div class="container">
-        <h1 class="reg-title">Perfil</h1>
-
-        <div class="datos-perfil" id="datos-perfil">
-            <h2 class="nombrecompleto">Nombre completo:</h2>
-            <p class="correo"><strong>Correo:</strong></p>
-            <p class="fechaNacimiento"><strong>Fecha de nacimiento:</strong></p>
-            <p class="promedioLectura"><strong>Promedio de lectura diaria:</strong></p>
-            <p class="generoFavorito"><strong>Género favorito:</strong></p>
-            <div style="margin-top:20px; display:flex; gap:10px;">
-                <button onclick="window.location.href='edit_perfil.html'" style="padding:10px 15px; cursor:pointer;">
-                    Editar perfil
-                </button>
-            
-                <button onclick="cerrarSesion()" style="padding:10px 15px; cursor:pointer; background:#e57373; color:white;">
-                    Cerrar sesión
-                </button>
+        <h1 class="reg-title">Editar perfil</h1>
+        <form id="form-editar-perfil" class="datos-perfil" autocomplete="off">
+            <div class="campo">
+                <label for="nombre">Nombre completo:</label>
+                <input type="text" id="nombre" name="nombre" required>
             </div>
-        </div>
+            <div class="campo">
+                <label for="correo">Correo:</label>
+                <input type="email" id="correo" name="correo" required>
+            </div>
+            <div class="campo">
+                <label for="fechaNacimiento">Fecha de nacimiento:</label>
+                <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+            </div>
+            <div class="campo">
+                <label for="promedioLectura">Promedio de lectura (min):</label>
+                <input type="number" id="promedioLectura" name="promedioLectura" required>
+            </div>
+            <div class="campo">
+                <label for="generoFavorito">Género favorito:</label>
+                <input type="text" id="generoFavorito" name="generoFavorito" required>
+            </div>
+            <div class="botones-acciones">
+                <button type="submit" class="btn-editar">Guardar Cambios</button>
+                <button type="button" onclick="irperfil()" class="btn-cancelar">Cancelar</button>
+            </div>
+        </form>
     </div>
 </main>
 
 <img src="../recursos/Imagen3.png" class="side-image left" alt="Hojas decorativas">
-<script src="../java-script/perfil.js"></script>
-
+<script src="../java-script/edit_perfil.js"></script>
 </body>
 </html>

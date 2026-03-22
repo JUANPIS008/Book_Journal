@@ -32,4 +32,8 @@ public class UsuarioService {
     public Usuario obtenerPorId(Long id) {
         return repository.findById(id).orElse(null);
     }
+
+    public Usuario actualizar(Usuario usuario) {
+        return repository.save(usuario);
+    }
 }
