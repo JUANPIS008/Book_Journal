@@ -7,6 +7,7 @@ function irlibros_leidos() { window.location.href = "libros_leidos.html"; }
 function irlista_deseos() { window.location.href = "lista_deseos.html"; }
 function irperfil() { window.location.href = "perfil.html"; }
 function irlogin() { window.location.href = "login.html"; }
+function iredit_perfil() { window.location.href = "edit_perfil.html";}
 
 // cargar perfil
 document.addEventListener('DOMContentLoaded', async () => {
