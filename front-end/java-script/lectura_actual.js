@@ -17,7 +17,6 @@ async function Guardar_libro() {
         return;
     }
 
-    // 🔥 SOLO API (puedes quitar localStorage si quieres)
     try {
         const respuesta = await fetch(API_URL, {
             method: 'POST',

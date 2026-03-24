@@ -1,14 +1,11 @@
-// URL correcta de tu API
 const API_URL = 'http://localhost:8080/api/libros/leidos';
 
-// navegación
 function irlectura_actual() { window.location.href = "lectura_actual.html"; }
 function irlibros_leidos() { window.location.href = "libros_leidos.html"; }
 function irlista_deseos() { window.location.href = "lista_deseos.html"; }
 function irperfil() { window.location.href = "perfil.html"; }
 function irlogin() { window.location.href = "login.html"; }
 
-// cargar datos al iniciar
 document.addEventListener('DOMContentLoaded', () => {
     cargarHistorial();
 });
@@ -21,7 +18,7 @@ async function buscarLibros() {
     contenedor.innerHTML = "";
 
     if (!texto) {
-        cargarHistorial(); // 🔥 vuelve a lista normal
+        cargarHistorial();
         return;
     }
 
@@ -44,7 +41,6 @@ async function buscarLibros() {
     }
 }
 
-// cargar libros desde la API
 async function cargarHistorial() {
     const contenedor = document.getElementById('historial-libros');
     contenedor.innerHTML = "";
@@ -74,14 +70,12 @@ async function cargarHistorial() {
     }
 }
 
-// renderizar cada libro
 function renderizarTarjeta(libro) {
     const contenedor = document.getElementById('historial-libros');
     const tarjeta = document.createElement('div');
     tarjeta.className = 'libro-card';
     tarjeta.id = `libro-${libro.id}`;
 
-    // estrellas
     let estrellasHTML = '';
     const calif = parseInt(libro.calificacion) || 0;
 
@@ -105,7 +99,6 @@ function renderizarTarjeta(libro) {
     contenedor.appendChild(tarjeta);
 }
 
-// eliminar libro desde la API
 async function eliminarLibro(id) {
     if (!confirm("¿Eliminar este libro?")) return;
 

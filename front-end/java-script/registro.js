@@ -1,6 +1,5 @@
 const API_URL = 'http://localhost:8080/api/usuarios';
 
-// navegación
 function irlogin() { 
     window.location.href = "login.html"; 
 }
@@ -9,7 +8,6 @@ function irHome() {
     window.location.href = "lectura_actual.html"; 
 }
 
-// registro
 async function registrar() {
 
     const nombre = document.getElementById('nombreCompleto').value;
@@ -20,7 +18,6 @@ async function registrar() {
     const promedioLectura = document.getElementById('promedioLectura').value;
     const generoFavorito = document.getElementById('generoFavorito').value;
 
-    // validaciones
     if (!nombre || !correo || !password || !confirmar) {
         alert("Completa los campos obligatorios");
         return;
@@ -56,7 +53,6 @@ async function registrar() {
 
         const usuario = await respuesta.json();
 
-        // guardar sesión automáticamente
         localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
 
         alert("Registro exitoso 🎉");

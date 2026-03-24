@@ -2,7 +2,7 @@
 
 ## 1. Visión general
 
-Esta sección define el propósito del backend y las convenciones principales. Explica por qué se eligió Spring Boot y PostgreSQL: escalabilidad, facilidad de configuración y compatibilidad con contenedores Docker.
+El propósito del backend y las convenciones principales. Explica por qué se eligió Spring Boot y PostgreSQL: escalabilidad, facilidad de configuración y compatibilidad con contenedores Docker.
 
 Proyecto: `back-end` (Java Spring Boot + PostgreSQL)
 
@@ -12,9 +12,10 @@ Proyecto: `back-end` (Java Spring Boot + PostgreSQL)
 - CORS habilitado (`@CrossOrigin("*")`) para frontend estático.
 - No hay manejo de excepciones personalizado; los casos nulos devuelven 200 con body `null` a menos que la infraestructura devuelva 500.
 
-## 1.1 Descripción del proyecto y dominio elegido
+![Captura de pantalla](imagenesdoc/EstruturaSpringBoot-Postgresql.png)
 
-Esta sección detalla el contexto funcional: una aplicación para seguimiento de lectura personal. El dominio (libros, usuarios, lista de deseos) se eligió por su simplicidad educativa y cobertura de patrones CRUD.
+## 1.1 Descripción del proyecto y dominio elegido
+El contexto funcional es una aplicación para seguimiento de lectura personal. El dominio (libros, usuarios, lista de deseos) se eligió por su simplicidad educativa y cobertura de patrones CRUD.
 
 Book Journal es una API para gestionar usuarios, libros leídos y listas de deseos en un sistema personal de seguimiento de lectura. El dominio es "lectura personal" / "gestión de biblioteca personal" y la aplicación cubre:
 
@@ -40,6 +41,8 @@ Se indica la ruta de base porque los consumidores API (frontend o QA) deben sabe
 
 - Local (dev): `http://localhost:8080`
 - Documentación: no incluido UI Swagger, se usa README + `api-documentation.md`.
+
+![Captura de pantalla](imagenesdoc/URL-localhost.png)
 
 ## 1.4 Diagrama de arquitectura del sistema
 
@@ -79,25 +82,54 @@ Se documentan credenciales de servicios para pruebas locales con docker-compose,
   - `correo`: pruebas@demo.com
   - `password`: 1234
 
+  ![Captura de pantalla](imagenesdoc/CredencialesPostgresql.png)
+
+  ![Captura de pantalla](imagenesdoc/CredencialesPostgresql2.png)
+
+
 ## 1.6 Problemas encontrados y soluciones
 
-Se listan aquí hallazgos técnicos de calidad que se detectaron con análisis rápido, para que quien replique el código tenga la lista de risks y posibles acciones.
+Se listan aquí hallazgos técnicos de calidad que se detectaron con análisis rápido, para que quien replique el código tenga la lista de riesgos y posibles acciones.
 
-- Login devuelve `null` cuando las credenciales fallan: se recomienda retornar `401 Unauthorized` o excepción clara.
-- GET de entidad inexistente devuelve `null` (200) en vez de 404. Se debe agregar control de respuesta con `ResponseEntity`.
-- Contraseñas guardadas en texto plano: en producción usar BCrypt y no exponer el campo `password`.
-- No hay validación de requests (ej. campos obligatorios); se recomienda `@Valid` y `@NotNull/@NotEmpty`.
-- CORS amplio (`*`) no es seguro en producción; restringir a dominio frontend.
+- Login devuelve `null` cuando las credenciales fallan.
+  - Por qué es un problema: el cliente no puede distinguir entre error de validación y fallo interno; devuelve 200 OK con body null, lo que rompe contratos de API y dificulta controles frontend.
+  - Solución recomendada: devolver `ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()` o lanzar excepción de autenticación (p.ej. `UsernameNotFoundException`) y manejarlo con `@ControllerAdvice`.
+  - Ejemplo de comportamiento: 
+    - Request: `POST /api/usuarios/login` con credenciales inválidas.
+    - Response: `401 Unauthorized`, body `{ "error": "Credenciales inválidas" }`.
 
-## 1.7 ¿Cómo se replantearía para producción?
+- GET de entidad inexistente devuelve `null` (200) en vez de 404.
+  - Por qué es un problema: rompe la semántica REST y obliga al consumidor a verificar siempre body nulo.
+  - Solución recomendada: usar `ResponseEntity` y devolver `ResponseEntity.notFound().build()`, o lanzar `ResponseStatusException(HttpStatus.NOT_FOUND)`.
+  - Ejemplo de comportamiento: 
+    - Request: `GET /api/libros/9999` cuando no existe.
+    - Response: `404 Not Found`.
 
-Esta parte explica qué cambios son recomendados:
-- Cambiar lógica de usuario para no devolver password y usar un DTO de respuesta.
-- Implementar `@ControllerAdvice` para estandarizar errores y evitar fugas de stacktrace.
-- Añadir pruebas unitarias e integración con `@SpringBootTest`.
-- Fix para control de 404/401:
-  - `ResponseEntity.notFound().build()` cuando no existe recurso.
-  - `ResponseEntity.status(HttpStatus.UNAUTHORIZED).build()` en login fallido.
+- Contraseñas guardadas en texto plano.
+  - Por qué es un problema: en caso de fuga de base de datos, todas las contraseñas quedan comprometidas.
+  - Solución recomendada: hashear con `BCryptPasswordEncoder` al registrar y verificar con `matches()` en login. Excluir `password` de los DTOs de salida.
+  - Ejemplo: en el servicio `registrar`, hacer `usuario.setPassword(passwordEncoder.encode(usuario.getPassword()))`.
+
+- No hay validación de requests (ej. campos obligatorios).
+  - Por qué es un problema: datos incompletos o inválidos pueden llegar a la base y generar errores inesperados más adelante.
+  - Solución recomendada: anotar entidades/DTOs con `@NotNull`, `@NotEmpty`, `@Email`, `@Past`, etc. y usar `@Valid` en los controladores.
+  - Ejemplo de validación en DTO:
+    ```java
+    public class UsuarioDTO {
+      @NotBlank private String nombre;
+      @Email @NotBlank private String correo;
+      @Size(min = 6) private String password;
+    }
+    ```
+
+- CORS amplio (`*`) no es seguro en producción.
+  - Por qué es un problema: permite que cualquier dominio acceda a la API, exponiendo los endpoints a potenciales ataques CSRF/OTG.
+  - Solución recomendada: restringir origenes con `@CrossOrigin(origins = "https://mifrontend.com")` o configurar CORS global en `WebMvcConfigurer` / `SecurityConfig`.
+  - Ejemplo:
+    ```java
+    @CrossOrigin(origins = "https://book-journal.app")
+    ```
+
 
 ## 2. Estructura del proyecto
 
@@ -133,6 +165,7 @@ back-end/
   pom.xml           -> Dependencias Maven
   src/main/resources/application.properties -> Config app
 ```
+![Captura de pantalla](imagenesdoc/EsructuraSpringBoot2.png)
 
 **¿Por qué esta estructura?**
 - Separación capas: cambios aislados sin afectar otras.
@@ -142,7 +175,7 @@ back-end/
 
 ## 3. Modelos de datos
 
-Representan tablas en BD. Anotados con `@Entity` para mapeo automático Hibernate.
+Representan tablas en BD. Anotados con `@Entity` para mapeo automático Hibernate(mapeo objeto-relacional que vincula clases Java con tablas de bases de datos, permitiendo manipular datos SQL como objetos Java).
 
 ### `Usuario` - Cuenta personal
 
@@ -164,6 +197,8 @@ Representan tablas en BD. Anotados con `@Entity` para mapeo automático Hibernat
   - Usado para recomendaciones o filtros.
 - **promedioLectura**: String
   - Métrica informativa (ej. "2 libros/mes"). Estadística voluntaria del usuario.
+
+![Captura de pantalla](imagenesdoc/EntidadUsuario.png)
 
 ### `Libro` - Libro en catálogo personal
 
@@ -193,6 +228,8 @@ Representan tablas en BD. Anotados con `@Entity` para mapeo automático Hibernat
   - Puntuación subjetiva del usuario (ej. 1-10 o 1-5).
   - Null si no ha calificado aún.
 
+![Captura de pantalla](imagenesdoc/EntidadLibro.png)
+
 ### `Deseo` - Libro deseado (lista de deseos)
 
 **Tabla**: `deseo`
@@ -202,6 +239,7 @@ Representan tablas en BD. Anotados con `@Entity` para mapeo automático Hibernat
 - **titulo**: String
   - Nombre del libro que el usuario desea leer en el futuro.
   - **Nota**: estructura simplificada; solo título. No almacena autor, género u otros detalles (se podrían agregar en futuro).
+![Captura de pantalla](imagenesdoc/EntidadDeseo.png)
 
 ## 4. Repositorios
 
@@ -226,6 +264,8 @@ Los repositorios son interfaces que heredan de `JpaRepository` y actúan como in
   - **SQL generado**: `SELECT * FROM usuario WHERE correo = ?`
   - **Caso uso**: validar email en login, comprobar unicidad en registro.
   - **Nota**: Spring Data genera esta query leyendo el nombre del método (`findBy` + `Correo`).
+
+  ![Captura de pantalla](imagenesdoc/UsuarioRepository.png)
 
 ### `LibroRepository`
 
@@ -266,12 +306,16 @@ Los repositorios son interfaces que heredan de `JpaRepository` y actúan como in
     - `@Param("texto")`: vincula parámetro Java a placeholder HQL.
   - **Caso uso**: buscador de libros en interfaz frontend.
 
+  ![Captura de pantalla](imagenesdoc/LibroRepository.png)
+
 ### `DeseoRepository`
 
 **Extiende**: `JpaRepository<Deseo, Long>`
 
 **Métodos**: Solo los heredados de `JpaRepository`.
 - No necesita métodos custom porque solo requiere CRUD básico (listar, crear, eliminar).
+
+![Captura de pantalla](imagenesdoc/DeseoRepository.png)
 
 ## 5. Servicios
 
@@ -322,6 +366,8 @@ Contienen **lógica de negocio** y actúan como intermediarios entre controlador
   - **Retorna**: Usuario actualizado.
   - **Caso uso**: PUT /api/usuarios/{id}.
   - **Nota**: requiere que usuario ya exista; no valida.
+
+  ![Captura de pantalla](imagenesdoc/UsuarioService.png)
 
 ### `LibroService`
 
@@ -376,6 +422,8 @@ Contienen **lógica de negocio** y actúan como intermediarios entre controlador
   - **Caso uso**: GET /api/libros/buscar?texto=princ.
   - **Implementación**: delega a `repository.buscar(texto)` con query HQL.
 
+  ![Captura de pantalla](imagenesdoc/LibroService.png)
+
 ### `DeseoService`
 
 **Anotación**: `@Service`.
@@ -400,6 +448,8 @@ Contienen **lógica de negocio** y actúan como intermediarios entre controlador
   - **Retorna**: void.
   - **Caso uso**: DELETE /api/deseos/{id}.
   - **Ejemplo**: usuario cambió de opinión sobre un libro y lo elimina de deseos.
+
+  ![Captura de pantalla](imagenesdoc/DeseoService.png)
 
 ## 6. Endpoints disponibles
 
@@ -452,6 +502,8 @@ Los endpoints son rutas HTTP que expone la API para que clientes (frontend, mobi
 - **Servicio**: `UsuarioService.actualizar(usuario)`.
 - **Respuesta**: 200 con Usuario actualizado.
 - **Caso uso**: formulario "Editar perfil".
+
+![Captura de pantalla](imagenesdoc/UsuarioController.png)
 
 ### Libro (`/api/libros`)
 
@@ -510,6 +562,8 @@ Los endpoints son rutas HTTP que expone la API para que clientes (frontend, mobi
 - **Caso uso**: buscador en interfaz, autocompletado.
 - **Nota**: búsqueda case-insensitive, usa LIKE con comodines.
 
+![Captura de pantalla](imagenesdoc/LibroController.png)
+
 ### Deseo (`/api/deseos`)
 
 **1. GET `/api/deseos`**
@@ -532,6 +586,8 @@ Los endpoints son rutas HTTP que expone la API para que clientes (frontend, mobi
 - **Respuesta**: 204 o 200.
 - **Servicio**: `DeseoService.eliminar(id)`.
 - **Caso uso**: remover libro de deseos o movimiento a "libros leídos".
+
+![Captura de pantalla](imagenesdoc/DeseoController.png)
 
 ## 7. Parámetros de endpoints
 
@@ -581,7 +637,7 @@ Detalla exactamente qué datos espera cada endpoint y dónde (URL, query, body).
   - Identificador único del usuario.
   - Ejemplo: `GET /api/usuarios/5`.
   - Rango: números positivos (1, 2, 3, ...).
-  - Si no existe: retorna null (mejor 404).
+  - Si no existe: retorna null.
 
 **PUT Body** (reemplazo completo):
 - Mismo contenido que registro (nombre, correo, password, etc.).
@@ -699,6 +755,7 @@ Response 201 (o 200 con configuración actual)
   "promedioLectura":"2 libros/mes"
 }
 ```
+![Captura de pantalla](imagenesdoc/RegistroUsuario.png)
 
 #### 8.2 login usuario
 
@@ -718,7 +775,9 @@ Response 200
 ```
 { "id": 1, "nombre":"Juan", "correo":"juan@mail.com", ... }
 ```
-- credenciales inválidas: `null` (recomendado cambiar a 401 en production)
+- credenciales inválidas: `null`
+
+![Captura de pantalla](imagenesdoc/LoginUsuario.png)
 
 #### 8.3 obtener usuario por id
 
@@ -730,7 +789,9 @@ Resp 200
 ```
 { "id": 1, "nombre":"Juan", ... }
 ```
-No existe: 200 + `null` (mejor 404)
+No existe: 200 + `null` 
+
+![Captura de pantalla](imagenesdoc/ConsultarUsuario.png)
 
 #### 8.4 actualizar usuario
 
@@ -750,6 +811,8 @@ Response 200
 ```
 { "id": 1, "nombre":"Juan Perez", ... }
 ```
+![Captura de pantalla](imagenesdoc/ActualizarUsuario.png)
+
 
 #### 8.5 listar libros
 
@@ -764,6 +827,7 @@ Response 200
   ...
 ]
 ```
+![Captura de pantalla](imagenesdoc/ListarLibros.png)
 
 #### 8.6 libro por id
 Request
@@ -775,6 +839,8 @@ Response 200
 { "id":10, "titulo":"..." }
 ```
 No existe: 200 + null
+
+![Captura de pantalla](imagenesdoc/LibroID.png)
 
 #### 8.7 crear libro
 
@@ -795,6 +861,8 @@ Content-Type: application/json
 ```
 Response 201/200 con body creado.
 
+![Captura de pantalla](imagenesdoc/CrearLibro.png)
+
 #### 8.8 actualizar libro
 
 Request
@@ -807,6 +875,8 @@ Content-Type: application/json
 ```
 Response 200
 
+![Captura de pantalla](imagenesdoc/ActualizarLibro.png)
+
 #### 8.9 eliminar libro
 
 Request
@@ -814,6 +884,8 @@ Request
 DELETE /api/libros/5
 ```
 Response 204 (vacío) o 200 (void)
+
+![Captura de pantalla](imagenesdoc/EliminarLibro.png)
 
 #### 8.10 libros leidos
 
@@ -823,6 +895,8 @@ GET /api/libros/leidos
 ```
 Resp 200 lista.
 
+![Captura de pantalla](imagenesdoc/LibrosLeidos.png)
+
 #### 8.11 buscar libros
 
 Request
@@ -831,6 +905,8 @@ GET /api/libros/buscar?texto=princ
 ```
 Response 200 lista.
 
+![Captura de pantalla](imagenesdoc/BuscarLibros.png)
+
 #### 8.12 lista de deseos
 
 Request
@@ -838,6 +914,8 @@ Request
 GET /api/deseos
 ```
 Response 200
+
+![Captura de pantalla](imagenesdoc/ListarDeseo.png)
 
 #### 8.13 crear deseo
 
@@ -851,6 +929,8 @@ Content-Type: application/json
 ```
 Response 201/200
 
+![Captura de pantalla](imagenesdoc/CrearDeseo.png)
+
 #### 8.14 eliminar deseo
 
 Request
@@ -858,6 +938,8 @@ Request
 DELETE /api/deseos/2
 ```
 Response 204/200
+
+![Captura de pantalla](imagenesdoc/EliminarDeseo.png)
 
 ## 9. Códigos de estado HTTP sugeridos
 - 200 OK: operaciones GET/PUT existosas
@@ -868,36 +950,8 @@ Response 204/200
 - 404 Not Found: recurso no existe (mejorar, hoy retorna null)
 - 500 Internal Server Error: errores del servidor
 
-## 10. Formato de errores (recomendado)
 
-Actualmente no hay manejador global `@ControllerAdvice`; la app hereda el error JSON de Spring Boot.
-Se recomienda implementar algo así:
-
-```json
-{
-  "timestamp": "2026-03-23T12:00:00.000Z",
-  "status": 404,
-  "error": "Not Found",
-  "message": "Usuario no encontrado",
-  "path": "/api/usuarios/99"
-}
-```
-
-y para validación:
-
-```json
-{
-  "timestamp": "...",
-  "status": 400,
-  "error": "Bad Request",
-  "message": "El campo correo es obligatorio",
-  "path": "/api/usuarios/registro"
-}
-```
-
----
-
-## 11. Notas importantes
+## 10. Notas importantes
 
 1. Seguridad: `SecurityConfig` permite cualquier petición (`.anyRequest().permitAll()`).
 2. Autenticación: login simple en DB con contraseña en texto plano (no recomendado en producción).

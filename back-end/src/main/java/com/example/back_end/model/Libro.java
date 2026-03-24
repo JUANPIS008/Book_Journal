@@ -26,7 +26,6 @@ public class Libro {
 
     private Integer calificacion;
 
-    // getters y setters (SOLO UNA VEZ)
 
     public Long getId() {
         return id;

@@ -1,7 +1,6 @@
 const API_URL = 'http://localhost:8080/api/usuarios';
 const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
 
-// navegación
 function irARegistro() { 
     window.location.href = "registro.html"; 
 }
@@ -10,7 +9,6 @@ function irHome() {
     window.location.href = "lectura_actual.html"; 
 }
 
-// login
 async function login() {
     const correo = document.getElementById('user').value;
     const password = document.getElementById('pass').value;
@@ -37,7 +35,6 @@ async function login() {
         const usuario = await respuesta.json();
 
         if (usuario) {
-            // guardar sesión
             localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
 
             alert("Login exitoso 🎉");
